@@ -8,7 +8,7 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <div class="user-container" *ngFor="let user of this.githubResult.items" >
+      <div class="user-container" *ngFor="let user of this.githubResult.items">
         <div class="user-container--divider"></div>
         <app-user-info class="user-container--profile" [githubUser]="user"></app-user-info>
       </div>

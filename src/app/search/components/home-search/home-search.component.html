@@ -8,6 +8,28 @@
     </div>
   </div>
   <ng-template #result_content>
-    <app-list-users [githubResult]="this.githubResult"></app-list-users>
+    <div class="result-container">
+      <app-list-users [githubResult]="this.githubResult"></app-list-users>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination flex-wrap result-container__paginator" *ngIf="this.paginatorIndex">
+          <li class="page-item" [ngClass]="{'disabled': this.paginatorIndex.isFirstIndexSelected}"
+            (click)="changeIndex(this.paginatorIndex.currentIndex - 1)">
+            <a class="page-link">Previous</a>
+          </li>
+          <ng-container *ngFor="let item of this.paginatorIndex.pages">
+            <li *ngIf="this.paginatorIndex.shouldDisplay(item)" class="page-item" [ngClass]="{'active': this.paginatorIndex.currentIndex === item}"
+              (click)="changeIndex(item)">
+              <a class="page-link">
+                {{item}}
+              </a>
+            </li>
+          </ng-container>
+          <li class="page-item" [ngClass]="{'disabled': this.paginatorIndex.isLastIndexSelected}"
+            (click)="changeIndex(this.paginatorIndex.currentIndex + 1)">
+            <a class="page-link">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </ng-template>
 </div>
