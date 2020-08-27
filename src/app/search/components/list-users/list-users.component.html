@@ -1,14 +1,17 @@
 <div>
   <div class="row">
     <div class="col-12">
-      <h3>
+      <h3 class="result-counter">
         {{ this.githubResult?.total_count }} users
       </h3>
     </div>
   </div>
   <div class="row">
     <div class="col-12">
-
+      <div class="user-container" *ngFor="let user of this.githubResult.items" >
+        <div class="user-container--divider"></div>
+        <app-user-info class="user-container--profile" [githubUser]="user"></app-user-info>
+      </div>
     </div>
   </div>
 </div>

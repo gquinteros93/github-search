@@ -1,5 +1,24 @@
-<div *ngIf="this.githubUser">
-  <a></a>
-  <a></a>
-  <p></p>
+<div *ngIf="this.githubUserProfile" class="user-profile">
+  <div class="user-profile__avatar">
+    <a class="user-profile__avatar__link">
+      <img  class="user-profile__avatar__link__img" src="{{this.githubUserProfile?.avatar_url}}">
+    </a>
+  </div>
+  <div class="user-profile__info">
+    <div class="user-profile__info__title">
+      <a href="{{this.githubUserProfile?.html_url}}" class="user-profile__info__title__name">{{this.githubUserProfile?.name}}</a>
+      <a href="{{this.githubUserProfile?.html_url}}" class="user-profile__info__title__login">{{this.githubUserProfile?.login}}</a>
+    </div>
+    <p class="user-profile__info__bio">
+      {{this.githubUserProfile?.bio}}
+    </p>
+    <div class="user-profile__info__contact">
+      <span [ngClass]="{'user-profile__info__contact__location': this.githubUserProfile.location }">
+        {{this.githubUserProfile?.location}}
+      </span>
+      <span>
+        {{this.githubUserProfile?.email}}
+      </span>
+    </div>
+  </div>
 </div>
