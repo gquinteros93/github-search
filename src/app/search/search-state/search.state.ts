@@ -3,7 +3,7 @@ import { PaginatorIndex } from '../model/paginator-index.model';
 import { SearchStateModel } from './search-state.model';
 import { Injectable } from '@angular/core';
 import { GithubService } from '../github.service';
-import { SearchUser } from './actions/search.action';
+import { SearchUser, ResetSearch } from './actions/search.action';
 import * as _ from 'underscore';
 import { GithubResultDTO } from '../model/github-result.model';
 import { tap } from 'rxjs/operators';
@@ -60,5 +60,14 @@ export class SearchState {
         paginationIndex: pagination
       });
     }));
+  }
+
+  @Action(ResetSearch)
+  public resetSearch({ patchState }: StateContext<SearchStateModel>) {
+    patchState({
+      lastSearch: null,
+      lastResult: null,
+      paginationIndex: null
+    });
   }
 }

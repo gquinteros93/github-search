@@ -7,7 +7,7 @@ import { of, Observable } from 'rxjs';
 import { GithubResultDTO } from '../../model/github-result.model';
 import { PaginatorIndex } from '../../model/paginator-index.model';
 import { Store, Select } from '@ngxs/store';
-import { SearchUser } from '../../search-state/actions/search.action';
+import { SearchUser, ResetSearch } from '../../search-state/actions/search.action';
 import { SearchState } from '../../search-state/search.state';
 import { PaginatorHandlerService } from '../../services/paginator-handler.service';
 
@@ -35,9 +35,6 @@ export class HomeSearchComponent implements OnInit {
   }
 
   public changeIndex(paginationIndex: PaginatorIndex, value: number) {
-    console.log('hola changeIndex');
-    console.log(paginationIndex);
-    console.log(value);
     if(this.paginatorHandlerService.changeIndex(paginationIndex ,value)) {
       const lastResult = this.store.selectSnapshot(SearchState.getLastSearch);
       this.search(lastResult, value);
@@ -50,6 +47,8 @@ export class HomeSearchComponent implements OnInit {
       if(queryValue && queryValue.length > 0 && queryValue.trim().length > 0) {
         let page: number = params['page'] && +params['page'] ? +params['page'] : 1;
         this.store.dispatch(new SearchUser(queryValue.trim(), page));
+      } else {
+        this.store.dispatch(new ResetSearch());
       }
     });
   }
