@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row" *ngIf="!this.githubResult; else result_content">
+  <div class="row" *ngIf="!(this.githubResult$ | async) as githubResult; else result_content">
     <div class="col-10">
       <input type="string" class="form-control" placeholder="Search Github" #queryInput>
     </div>
@@ -9,23 +9,24 @@
   </div>
   <ng-template #result_content>
     <div class="result-container">
-      <app-list-users [githubResult]="this.githubResult"></app-list-users>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination flex-wrap result-container__paginator" *ngIf="this.paginatorIndex">
-          <li class="page-item" [ngClass]="{'disabled': this.paginatorIndex.isFirstIndexSelected}"
-            (click)="changeIndex(this.paginatorIndex.currentIndex - 1)">
+      <app-list-users></app-list-users>
+      <nav aria-label="Page navigation example" *ngIf="this.paginationIndex$ | async as paginationIndex">
+        <ul class="pagination flex-wrap result-container__paginator">
+          <li class="page-item" [ngClass]="{'disabled': paginationIndex.isFirstIndexSelected}"
+            (click)="changeIndex(paginationIndex, paginationIndex.currentIndex - 1)">
             <a class="page-link">Previous</a>
           </li>
-          <ng-container *ngFor="let item of this.paginatorIndex.pages">
-            <li *ngIf="this.paginatorIndex.shouldDisplay(item)" class="page-item" [ngClass]="{'active': this.paginatorIndex.currentIndex === item}"
-              (click)="changeIndex(item)">
+          <ng-container *ngFor="let item of paginationIndex.pages">
+            <li *ngIf="this.paginatorHandlerService.shouldDisplayItem(paginationIndex, item)"
+              class="page-item" [ngClass]="{'active': paginationIndex.currentIndex === item}"
+              (click)="changeIndex(paginationIndex, item)">
               <a class="page-link">
                 {{item}}
               </a>
             </li>
           </ng-container>
-          <li class="page-item" [ngClass]="{'disabled': this.paginatorIndex.isLastIndexSelected}"
-            (click)="changeIndex(this.paginatorIndex.currentIndex + 1)">
+          <li class="page-item" [ngClass]="{'disabled': paginationIndex.isLastIndexSelected}"
+            (click)="changeIndex(paginationIndex, paginationIndex.currentIndex + 1)">
             <a class="page-link">Next</a>
           </li>
         </ul>

@@ -7,6 +7,7 @@ import { ListUsersComponent } from './components/list-users/list-users.component
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { NgxsModule } from '@ngxs/store';
 import { SearchState } from './search-state/search.state';
+import { PaginatorHandlerService } from './services/paginator-handler.service';
 
 const ROUTES: Routes = [
   { path: '', component: HomeSearchComponent }
@@ -19,6 +20,6 @@ const ROUTES: Routes = [
     NgxsModule.forFeature([SearchState]),
     RouterModule.forChild(ROUTES)
   ],
-  providers: [GithubService]
+  providers: [GithubService, PaginatorHandlerService]
 })
 export class SearchModule { }

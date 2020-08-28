@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { GithubResult } from '../../model/github-result.model';
+import { GithubResult, GithubResultDTO } from '../../model/github-result.model';
+import { Select } from '@ngxs/store';
+import { SearchState } from '../../search-state/search.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list-users',
@@ -7,7 +10,7 @@ import { GithubResult } from '../../model/github-result.model';
   styleUrls: ['./list-users.component.scss']
 })
 export class ListUsersComponent implements OnInit {
-  @Input() githubResult: GithubResult;
+  @Select(SearchState.getLastGithubResult) public githubResult$: Observable<GithubResultDTO>;
   constructor() { }
 
   ngOnInit(): void {

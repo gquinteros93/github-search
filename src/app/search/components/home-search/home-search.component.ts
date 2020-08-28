@@ -3,9 +3,13 @@ import { GithubService } from '../../github.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { GithubResultDTO } from '../../model/github-result.model';
 import { PaginatorIndex } from '../../model/paginator-index.model';
+import { Store, Select } from '@ngxs/store';
+import { SearchUser } from '../../search-state/actions/search.action';
+import { SearchState } from '../../search-state/search.state';
+import { PaginatorHandlerService } from '../../services/paginator-handler.service';
 
 @UntilDestroy()
 @Component({
@@ -14,46 +18,38 @@ import { PaginatorIndex } from '../../model/paginator-index.model';
   styleUrls: ['./home-search.component.scss']
 })
 export class HomeSearchComponent implements OnInit {
-  private _lastResult: string = null; 
   public githubResult: GithubResultDTO = null;
-  public paginatorIndex: PaginatorIndex;
-  constructor(private githubSearch: GithubService,
+  @Select(SearchState.getLastGithubResult) public githubResult$: Observable<GithubResultDTO>;
+  @Select(SearchState.getPaginationIndex) public paginationIndex$: Observable<PaginatorIndex>
+  constructor(public paginatorHandlerService: PaginatorHandlerService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private store: Store) { }
 
   ngOnInit(): void {
     this.watchQueryParams();
   }
 
-  public search(value: string, page: number = 1): void {
+  public search(value: string, page: number = 1) {
     this.router.navigate(['.'], { relativeTo: this.route, queryParams: { q: value.trim(), page }});
   }
 
-  public changeIndex(value: number) {
-    if(this.paginatorIndex.changeIndex(value)) {
-      this.search(this._lastResult, value);
+  public changeIndex(paginationIndex: PaginatorIndex, value: number) {
+    console.log('hola changeIndex');
+    console.log(paginationIndex);
+    console.log(value);
+    if(this.paginatorHandlerService.changeIndex(paginationIndex ,value)) {
+      const lastResult = this.store.selectSnapshot(SearchState.getLastSearch);
+      this.search(lastResult, value);
     }
   }
 
   private watchQueryParams(): void {
-    this.route.queryParams.pipe(untilDestroyed(this), mergeMap((params) => {
+    this.route.queryParams.pipe(untilDestroyed(this)).subscribe((params)=> {
       const queryValue = params['q'];
       if(queryValue && queryValue.length > 0 && queryValue.trim().length > 0) {
         let page: number = params['page'] && +params['page'] ? +params['page'] : 1;
-        this._lastResult =  queryValue.trim();
-        return this.githubSearch.searchUser(this._lastResult, page);
-      }
-      return of(null);
-    })).subscribe(result => {
-      if (result) {
-        this.githubResult = result;
-        if(!this.paginatorIndex) {
-          this.paginatorIndex = new PaginatorIndex();
-        }
-        this.paginatorIndex.populate(20, this.githubResult.total_count, result.page);
-      } else {
-        this.githubResult = null;
-        this.paginatorIndex = null;
+        this.store.dispatch(new SearchUser(queryValue.trim(), page));
       }
     });
   }

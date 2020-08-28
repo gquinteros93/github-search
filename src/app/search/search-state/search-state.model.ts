@@ -3,6 +3,6 @@ import { PaginatorIndex } from '../model/paginator-index.model';
 
 export type SearchStateModel = {
   lastSearch: string;
-  lastResult: GithubResultDTO;
-  paginationIndex: PaginatorIndex;
+  lastResult?: GithubResultDTO;
+  paginationIndex?: PaginatorIndex;
 };
