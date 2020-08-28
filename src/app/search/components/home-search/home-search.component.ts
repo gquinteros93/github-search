@@ -25,7 +25,7 @@ export class HomeSearchComponent implements OnInit {
     this.watchQueryParams();
   }
 
-  public search(value: string, page: number = 1) {
+  public search(value: string, page: number = 1): void {
     this.router.navigate(['.'], { relativeTo: this.route, queryParams: { q: value.trim(), page }});
   }
 
@@ -49,7 +49,7 @@ export class HomeSearchComponent implements OnInit {
         this.githubResult = result;
         if(!this.paginatorIndex) {
           this.paginatorIndex = new PaginatorIndex();
-        } 
+        }
         this.paginatorIndex.populate(20, this.githubResult.total_count, result.page);
       } else {
         this.githubResult = null;
