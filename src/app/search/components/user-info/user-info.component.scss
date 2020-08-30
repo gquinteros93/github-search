@@ -1,10 +1,11 @@
 $grey-text: #586069;
 $black-text: #24292e;
 $blue-text: #0366d6;
+$divider-color: #ebebeb;
 
 .user-info {
   &--divider {
-    background-color: #ebebeb;
+    background-color: $divider-color;
     height: 1px;
     width: 100%;
   }
@@ -13,6 +14,7 @@ $blue-text: #0366d6;
     display: grid;
     grid-template-columns: 20px auto;
     column-gap: 8px;
+    padding: 24px 0;
 
     &__avatar {
       &__link {

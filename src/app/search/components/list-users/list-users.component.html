@@ -9,8 +9,8 @@
   <div class="row">
     <div class="col-12">
       <ng-container  *ngIf="this.githubResult.items && this.githubResult.items.length > 0">
-        <div class="user-container" *ngFor="let user of this.githubResult.items">
-          <app-user-info class="user-container--profile" [githubUser]="user"></app-user-info>
+        <div *ngFor="let user of this.githubResult.items">
+          <app-user-info [githubUser]="user"></app-user-info>
         </div>
       </ng-container>
     </div>
