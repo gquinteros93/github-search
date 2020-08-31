@@ -78,14 +78,13 @@ describe('PaginatorHandlerService', () => {
 
   it('on call changeIndex it should change the value of currentIndex', () => {
     mockPaginator.currentIndex = 1;
-    service.changeIndex(mockPaginator, 5)
-    expect(mockPaginator.currentIndex).toEqual(5);
+    expect(service.allowChangeIndex(mockPaginator, 5)).toBeTrue();
+
   });
 
   it('on call changeIndex it shouldn\'t change the value of currentIndex', () => {
     mockPaginator.currentIndex = 1;
     mockPaginator.lastIndex = 20;
-    expect(service.changeIndex(mockPaginator, 21)).toBeFalse();
-    expect(mockPaginator.currentIndex).toEqual(1);
+    expect(service.allowChangeIndex(mockPaginator, 21)).toBeFalse();
   });
 });

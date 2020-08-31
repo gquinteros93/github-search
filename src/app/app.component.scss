@@ -1,0 +1,37 @@
+@import './shared/styles/colors';
+
+.area-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 56px calc(100vh - 117px) 61px;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+
+    &__header {
+      grid-area: header;
+    }
+
+    &__main {
+      grid-area: main;
+    }
+    
+    &__footer {
+      grid-area: footer;
+
+
+      &__content {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        padding: 15px 0;
+      }
+
+      &--divider {
+        background-color: $divider-color;
+        height: 1px;
+        width: 100%;
+      }
+    }
+}

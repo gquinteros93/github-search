@@ -53,14 +53,14 @@ describe('HomeSearchComponent', () => {
 
   it('on call changeIndex if paginatorHandlerService.changeIndex return true it should call search()', () => {
     const spyOnSearch = spyOn(component, 'search');
-    spyOn(component['paginatorHandlerService'], 'changeIndex').and.returnValue(true);
+    spyOn(component['paginatorHandlerService'], 'allowChangeIndex').and.returnValue(true);
     component.changeIndex(null, 2);
     expect(spyOnSearch).toHaveBeenCalled();
   });
 
   it('on call changeIndex if paginatorHandlerService.changeIndex return false it shouldn\'t call search()', () => {
     const spyOnSearch = spyOn(component, 'search');
-    spyOn(component['paginatorHandlerService'], 'changeIndex').and.returnValue(false);
+    spyOn(component['paginatorHandlerService'], 'allowChangeIndex').and.returnValue(false);
     component.changeIndex(null, 2);
     expect(spyOnSearch).not.toHaveBeenCalled();
   });

@@ -33,7 +33,7 @@ export class HomeSearchComponent implements OnInit {
   }
 
   public changeIndex(paginationIndex: PaginatorIndex, value: number) {
-    if(this.paginatorHandlerService.changeIndex(paginationIndex ,value)) {
+    if(this.paginatorHandlerService.allowChangeIndex(paginationIndex ,value)) {
       const lastResult = this.store.selectSnapshot(SearchState.getLastSearch);
       this.search(lastResult, value);
     }

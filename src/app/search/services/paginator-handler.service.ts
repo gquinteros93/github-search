@@ -31,11 +31,7 @@ export class PaginatorHandlerService {
     }
   }
 
-  public changeIndex(pagintor: PaginatorIndex, value: number): boolean {
-    if (pagintor && value >= pagintor.firstIndex && value <= pagintor.lastIndex && value !== pagintor.firstIndex) {
-      pagintor.currentIndex = value;
-      return true;
-    }
-    return false;
+  public allowChangeIndex(pagintor: PaginatorIndex, value: number): boolean {
+    return pagintor && value >= pagintor.firstIndex && value <= pagintor.lastIndex && value !== pagintor.currentIndex;
   }
 }

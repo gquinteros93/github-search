@@ -1,7 +1,4 @@
-$grey-text: #586069;
-$black-text: #24292e;
-$blue-text: #0366d6;
-$divider-color: #ebebeb;
+@import '../../../shared/styles/colors';
 
 .user-info {
   &--divider {

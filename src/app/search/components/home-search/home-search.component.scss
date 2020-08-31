@@ -1,4 +1,10 @@
+.container {
+  padding: 24px;
+}
+
 .result-container {
+  margin-top: 12px;
+
   &__paginator {
     cursor: pointer;
   }
