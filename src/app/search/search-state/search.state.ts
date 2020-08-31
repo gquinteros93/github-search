@@ -2,12 +2,12 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { PaginatorIndex } from '../model/paginator-index.model';
 import { SearchStateModel } from './search-state.model';
 import { Injectable } from '@angular/core';
-import { GithubService } from '../github.service';
 import { SearchUser, ResetSearch } from './actions/search.action';
 import * as _ from 'underscore';
 import { GithubResultDTO } from '../model/github-result.model';
 import { tap } from 'rxjs/operators';
 import { PaginatorHandlerService } from '../services/paginator-handler.service';
+import { GithubService } from '../services/github.service';
 
 @State<SearchStateModel>({
   name: 'search',

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserInfoComponent } from './user-info.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { GithubService } from '../../services/github.service';
 
 describe('UserInfoComponent', () => {
   let component: UserInfoComponent;
@@ -8,7 +10,9 @@ describe('UserInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserInfoComponent ]
+      declarations: [ UserInfoComponent ],
+      providers: [GithubService],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   }));

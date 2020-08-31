@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { GithubUser, GithubUserProfile } from '../../model/github-user.model';
-import { GithubService } from '../../github.service';
+import { GithubService } from '../../services/github.service';
 
 @Component({
   selector: 'app-user-info',

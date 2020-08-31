@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListUsersComponent } from './list-users.component';
+import { PaginatorHandlerService } from '../../services/paginator-handler.service';
+import { NgxsModule } from '@ngxs/store';
+import { SearchState } from '../../search-state/search.state';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { GithubService } from '../../services/github.service';
 
 describe('ListUsersComponent', () => {
   let component: ListUsersComponent;
@@ -8,7 +13,9 @@ describe('ListUsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListUsersComponent ]
+      declarations: [ ListUsersComponent ],
+      providers: [GithubService, PaginatorHandlerService],
+       imports: [NgxsModule.forRoot([SearchState]), HttpClientTestingModule]
     })
     .compileComponents();
   }));

@@ -1,14 +1,36 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeSearchComponent } from './home-search.component';
+import { NgxsModule } from '@ngxs/store';
+import { SearchState } from '../../search-state/search.state';
+import { PaginatorHandlerService } from '../../services/paginator-handler.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { GithubService } from '../../services/github.service';
+
+const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
 describe('HomeSearchComponent', () => {
   let component: HomeSearchComponent;
   let fixture: ComponentFixture<HomeSearchComponent>;
+  let fakeRouterEvents: Subject<any> = new Subject();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeSearchComponent ]
+      declarations: [ HomeSearchComponent],
+      providers: [
+        GithubService,
+        PaginatorHandlerService,
+       { provide: ActivatedRoute, useValue: {
+          queryParams: fakeRouterEvents.asObservable(),
+       } },
+       { provide: Router, useValue: routerSpy }
+      ],
+      imports: [
+        NgxsModule.forRoot([SearchState]),
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   }));
@@ -21,5 +43,24 @@ describe('HomeSearchComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('on call search it should call the router.navigate', () => {
+    component.search('test');
+    expect(routerSpy.navigate).toHaveBeenCalled();
+  });
+
+  it('on call changeIndex if paginatorHandlerService.changeIndex return true it should call search()', () => {
+    const spyOnSearch = spyOn(component, 'search');
+    spyOn(component['paginatorHandlerService'], 'changeIndex').and.returnValue(true);
+    component.changeIndex(null, 2);
+    expect(spyOnSearch).toHaveBeenCalled();
+  });
+
+  it('on call changeIndex if paginatorHandlerService.changeIndex return false it shouldn\'t call search()', () => {
+    const spyOnSearch = spyOn(component, 'search');
+    spyOn(component['paginatorHandlerService'], 'changeIndex').and.returnValue(false);
+    component.changeIndex(null, 2);
+    expect(spyOnSearch).not.toHaveBeenCalled();
   });
 });

@@ -33,7 +33,7 @@ export class PaginatorHandlerService {
 
   public changeIndex(pagintor: PaginatorIndex, value: number): boolean {
     if (pagintor && value >= pagintor.firstIndex && value <= pagintor.lastIndex && value !== pagintor.firstIndex) {
-      pagintor.firstIndex = value;
+      pagintor.currentIndex = value;
       return true;
     }
     return false;

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GithubService } from '../../github.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { mergeMap } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GithubResultDTO } from '../../model/github-result.model';
 import { PaginatorIndex } from '../../model/paginator-index.model';
 import { Store, Select } from '@ngxs/store';
