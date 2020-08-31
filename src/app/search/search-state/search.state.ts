@@ -20,7 +20,7 @@ import { GithubService } from '../services/github.service';
 
 @Injectable()
 export class SearchState {
-  constructor(private githubSearch: GithubService,
+  constructor(private githubService: GithubService,
               private paginatorHandlerService: PaginatorHandlerService) { }
 
   @Selector()
@@ -45,7 +45,7 @@ export class SearchState {
       patchState({ lastResult: _.clone(currentState.lastResult) });
       return;
     }
-    return this.githubSearch.searchUser(query, page).pipe(tap((result) => {
+    return this.githubService.searchUser(query, page).pipe(tap((result) => {
       const state = getState();
       let pagination: PaginatorIndex = state.paginationIndex;
       if (!pagination || _.isEmpty(pagination)) {

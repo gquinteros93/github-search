@@ -100,10 +100,7 @@
               "src/styles.scss"
             ],
             "scripts": []
-          },
-          "codeCoverageExclude": [
-            "/**/*model*.ts"
-          ]
+          }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",

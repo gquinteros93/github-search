@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 
 import { HomeSearchComponent } from './home-search.component';
 import { NgxsModule } from '@ngxs/store';
@@ -8,6 +8,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { GithubService } from '../../services/github.service';
+import { SearchUser, ResetSearch } from '../../search-state/actions/search.action';
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -63,4 +64,31 @@ describe('HomeSearchComponent', () => {
     component.changeIndex(null, 2);
     expect(spyOnSearch).not.toHaveBeenCalled();
   });
+
+  it('if queryParams emits a parameter q with value it should call dispatch a SearchUser Action', fakeAsync(() => {
+    const spyOnDispatch = spyOn(component['store'], 'dispatch');
+    fakeRouterEvents.next({q: 'test'});
+    tick();
+    fixture.detectChanges();
+    expect(spyOnDispatch).toHaveBeenCalledWith(new SearchUser('test', 1));
+    flush();
+  }));
+
+  it('if queryParams emits a parameter q and pages with their respective values it should call dispatch a SearchUser Action', fakeAsync(() => {
+    const spyOnDispatch = spyOn(component['store'], 'dispatch');
+    fakeRouterEvents.next({q: 'test', page: '2'});
+    tick();
+    fixture.detectChanges();
+    expect(spyOnDispatch).toHaveBeenCalledWith(new SearchUser('test', 2));
+    flush();
+  }));
+
+  it('if queryParams emits without parameter q it should call dispatch a ResetSearch Action', fakeAsync(() => {
+    const spyOnDispatch = spyOn(component['store'], 'dispatch');
+    fakeRouterEvents.next({});
+    tick();
+    fixture.detectChanges();
+    expect(spyOnDispatch).toHaveBeenCalledWith(new ResetSearch());
+    flush();
+  }));
 });
