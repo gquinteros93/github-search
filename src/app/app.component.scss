@@ -3,7 +3,7 @@
 .area-container {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 56px calc(100vh - 117px) 61px;
+  grid-template-rows: 56px auto 61px;
   grid-template-areas:
     "header"
     "main"
